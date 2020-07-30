@@ -55,8 +55,7 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
         {
             try
             {
-                var schemaReader = XmlTextReader.Create(path);
-                thisSchema = XmlSchema.Read(schemaReader, null);
+                thisSchema = XmlUrlResolverFactory.Instance.ReadSchema(path);
                 return true;
             }
             catch (XmlSchemaException)
