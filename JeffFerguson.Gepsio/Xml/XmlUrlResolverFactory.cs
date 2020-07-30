@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
 using System.Xml.Schema;
 
 namespace JeffFerguson.Gepsio.Xml
@@ -17,6 +18,16 @@ namespace JeffFerguson.Gepsio.Xml
         /// XmlUrlResolverFactory.Factory that will be used to download schemas
         /// </summary>
         public static XmlUrlResolverFactory Instance { get; set; }
+
+        /// <summary>
+        /// Reads document as stream
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public virtual Stream ReadXmlDocumentStream(string path)
+        {
+            return File.OpenRead(path);
+        }
 
         /// <summary>
         /// Reads the schema in given path

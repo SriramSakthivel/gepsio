@@ -18,7 +18,7 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
 
         public void Load(string path)
         {
-            doc = XDocument.Load(path, LoadOptions.SetBaseUri);
+            Load(XmlUrlResolverFactory.Instance.ReadXmlDocumentStream(path));
         }
 
         public void Load(Stream stream)

@@ -18,7 +18,7 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXml
             this.XmlDocument = new XmlDocument();
         }
 
-        public void Load(string path) => this.XmlDocument.Load(path);
+        public void Load(string path) => this.XmlDocument.Load(XmlUrlResolverFactory.Instance.ReadXmlDocumentStream(path));
 
         public void Load(Stream stream) => this.XmlDocument.Load(stream);
 
