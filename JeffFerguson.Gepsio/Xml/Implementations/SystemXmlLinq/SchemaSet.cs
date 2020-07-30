@@ -1,6 +1,7 @@
 ﻿using JeffFerguson.Gepsio.Xml.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 
@@ -97,7 +98,7 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
             // Possible issue:
             // http://stackoverflow.com/questions/7500636/xml-validation-error-using-nested-xsd-schema-type-not-declared
             //
-            XmlUrlResolver resolver = new XmlUrlResolver();
+            XmlUrlResolver resolver = XmlUrlResolverFactory.Instance.CreateUrlResolver();
             resolver.Credentials = System.Net.CredentialCache.DefaultCredentials;
             thisSchemaSet.XmlResolver = resolver;
             // NEW END

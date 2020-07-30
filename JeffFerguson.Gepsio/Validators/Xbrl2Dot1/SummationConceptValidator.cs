@@ -159,7 +159,7 @@ namespace JeffFerguson.Gepsio.Validators.Xbrl2Dot1
                         }
                         if(IncludeContributingConceptItemInCalculation == true)
                         {
-                            IncludeContributingConceptItemInCalculation = SummationConceptItem.ContextRef.StructureEquals(ContributingConceptItem.ContextRef, ValidatedFragment);
+                            IncludeContributingConceptItemInCalculation = SummationConceptItem.ContextRef?.StructureEquals(ContributingConceptItem.ContextRef, ValidatedFragment) == true;
                             if(IncludeContributingConceptItemInCalculation == false)
                             {
                             }
