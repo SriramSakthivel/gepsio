@@ -55,10 +55,10 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
             }
         }
 
-        public async Task LoadAsync(Stream stream)
+        public Task LoadAsync(Stream stream)
         {
-            var cancelToken = new CancellationToken();
-            doc = await XDocument.LoadAsync(stream, LoadOptions.SetBaseUri, cancelToken);
+            doc = XDocument.Load(stream, LoadOptions.SetBaseUri);
+            return Task.CompletedTask;
         }
 
         public INodeList SelectNodes(string xpath, INamespaceManager namespaceManager)

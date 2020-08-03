@@ -95,7 +95,8 @@ namespace JeffFerguson.Gepsio
             }
             else
             {
-                throw new NotImplementedException("XbrlSchema.GetFullSchemaPath() code path not implemented.");
+                FullPath = LinkbaseDocFilename;
+                //throw new NotImplementedException("XbrlSchema.GetFullSchemaPath() code path not implemented.");
             }
             return FullPath;
         }
