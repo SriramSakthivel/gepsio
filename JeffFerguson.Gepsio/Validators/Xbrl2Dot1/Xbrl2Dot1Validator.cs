@@ -137,12 +137,11 @@ namespace JeffFerguson.Gepsio.Validators.Xbrl2Dot1
             if (ContextRefValue.Length == 0)
                 return;
 
-            try
+            if (validatingFragment.ContextDictionary.TryGetValue(ContextRefValue, out Context MatchingContext))
             {
-                Context MatchingContext = validatingFragment.ContextDictionary[ContextRefValue];
                 ItemToValidate.ContextRef = MatchingContext;
             }
-            catch (KeyNotFoundException)
+            else
             {
                 string MessageFormat = AssemblyResources.GetName("CannotFindContextForContextRef");
                 StringBuilder MessageBuilder = new StringBuilder();
