@@ -16,9 +16,15 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
     {
         private XDocument doc;
 
+        private XmlUrlResolverFactory resolverFactory;
+        public Document(XmlUrlResolverFactory resolverFactory)
+        {
+            this.resolverFactory = resolverFactory ?? throw new ArgumentNullException(nameof(resolverFactory));
+        }
+
         public void Load(string path)
         {
-            Load(XmlUrlResolverFactory.Instance.ReadXmlDocumentStream(path));
+            Load(resolverFactory.ReadXmlDocumentStream(path));
         }
 
         public void Load(Stream stream)

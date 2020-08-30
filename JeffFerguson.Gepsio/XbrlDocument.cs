@@ -1,8 +1,9 @@
-using JeffFerguson.Gepsio.IoC;
+﻿using JeffFerguson.Gepsio.IoC;
 using JeffFerguson.Gepsio.Xml.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using JeffFerguson.Gepsio.Xml;
 
 namespace JeffFerguson.Gepsio
 {
@@ -148,11 +149,18 @@ namespace JeffFerguson.Gepsio
         }
 
         /// <summary>
+        /// XmlUrlResolverFactory seam for custom resolving
+        /// </summary>
+        public XmlUrlResolverFactory ResolverFactory { get; set; }
+
+
+        /// <summary>
         /// The constructor for the XbrlDocument class.
         /// </summary>
         public XbrlDocument()
         {
             this.XbrlFragments = new List<XbrlFragment>();
+            this.ResolverFactory = new XmlUrlResolverFactory();
         }
 
         /// <summary>
@@ -174,7 +182,7 @@ namespace JeffFerguson.Gepsio
         /// </param>
         public void Load(string Filename)
         {
-            var SchemaValidXbrl = Container.Resolve<IDocument>();
+            var SchemaValidXbrl = Container.Resolve<IDocument, XmlUrlResolverFactory>(ResolverFactory);
             SchemaValidXbrl.Load(Filename);
             this.Filename = Filename;
             this.Path = System.IO.Path.GetDirectoryName(this.Filename);
@@ -200,7 +208,7 @@ namespace JeffFerguson.Gepsio
         /// </param>
         public async Task LoadAsync(string Filename)
         {
-            var SchemaValidXbrl = Container.Resolve<IDocument>();
+            var SchemaValidXbrl = Container.Resolve<IDocument, XmlUrlResolverFactory>(ResolverFactory);
             await SchemaValidXbrl.LoadAsync(Filename);
             this.Filename = Filename;
             this.Path = System.IO.Path.GetDirectoryName(this.Filename);
@@ -283,7 +291,7 @@ namespace JeffFerguson.Gepsio
         /// </param>
         public void Load(Stream dataStream)
         {
-            var SchemaValidXbrl = Container.Resolve<IDocument>();
+            var SchemaValidXbrl = Container.Resolve<IDocument, XmlUrlResolverFactory>(ResolverFactory);
             SchemaValidXbrl.Load(dataStream);
             this.Filename = string.Empty;
             this.Path = string.Empty;
@@ -366,7 +374,7 @@ namespace JeffFerguson.Gepsio
         /// </param>
         public async Task LoadAsync(Stream dataStream)
         {
-            var SchemaValidXbrl = Container.Resolve<IDocument>();
+            var SchemaValidXbrl = Container.Resolve<IDocument, XmlUrlResolverFactory>(ResolverFactory);
             await SchemaValidXbrl.LoadAsync(dataStream);
             this.Filename = string.Empty;
             this.Path = string.Empty;
@@ -383,7 +391,7 @@ namespace JeffFerguson.Gepsio
             NewNamespaceManager.AddNamespace("instance", XbrlNamespaceUri);
             INodeList XbrlNodes = doc.SelectNodes("//instance:xbrl", NewNamespaceManager);
             foreach (INode XbrlNode in XbrlNodes)
-                this.XbrlFragments.Add(new XbrlFragment(this, NewNamespaceManager, XbrlNode));
+                this.XbrlFragments.Add(new XbrlFragment(this, NewNamespaceManager, XbrlNode, ResolverFactory));
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-using JeffFerguson.Gepsio.IoC;
+﻿using JeffFerguson.Gepsio.IoC;
 using JeffFerguson.Gepsio.Xml.Interfaces;
 using JeffFerguson.Gepsio.Xsd;
 using System;
@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using JeffFerguson.Gepsio.Xml;
 
 namespace JeffFerguson.Gepsio
 {
@@ -178,7 +179,7 @@ namespace JeffFerguson.Gepsio
                 }
                 this.LoadPath = schemaLocalPath;
             }
-            thisSchemaDocument = Container.Resolve<IDocument>();
+            thisSchemaDocument = Container.Resolve<IDocument, XmlUrlResolverFactory>(Fragment.ResolverFactory);
             this.thisLinkbaseDocuments = new LinkbaseDocumentCollection();
             this.RoleTypes = new List<RoleType>();
             thisSchemaDocument.Load(this.LoadPath);
@@ -206,8 +207,8 @@ namespace JeffFerguson.Gepsio
         /// </returns>
         private bool ReadAndCompile(string schemaPath)
         {
-            thisXmlSchema = Container.Resolve<ISchema>();
-            thisXmlSchemaSet = Container.Resolve<ISchemaSet>();
+            thisXmlSchema = Container.Resolve<ISchema, XmlUrlResolverFactory>(Fragment.ResolverFactory);
+            thisXmlSchemaSet = Container.Resolve<ISchemaSet, XmlUrlResolverFactory>(Fragment.ResolverFactory);
             if (thisXmlSchema.Read(schemaPath) == false)
             {
                 StringBuilder MessageBuilder = new StringBuilder();

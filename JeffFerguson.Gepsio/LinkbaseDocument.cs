@@ -1,6 +1,7 @@
 ﻿using JeffFerguson.Gepsio.IoC;
 using JeffFerguson.Gepsio.Xml.Interfaces;
 using System;
+using JeffFerguson.Gepsio.Xml;
 
 namespace JeffFerguson.Gepsio
 {
@@ -11,6 +12,7 @@ namespace JeffFerguson.Gepsio
     /// </summary>
     public class LinkbaseDocument
     {
+        private readonly XbrlFragment thisContainingFragment;
         private IDocument thisXmlDocument;
         private string thisLinkbasePath;
         private INamespaceManager thisNamespaceManager;
@@ -20,8 +22,9 @@ namespace JeffFerguson.Gepsio
         //------------------------------------------------------------------------------------
         internal LinkbaseDocument(string ContainingDocumentUri, string DocumentPath, XbrlFragment containingFragment)
         {
+            thisContainingFragment = containingFragment;
             thisLinkbasePath = GetFullLinkbasePath(ContainingDocumentUri, DocumentPath);
-            thisXmlDocument = Container.Resolve<IDocument>();
+            thisXmlDocument = Container.Resolve<IDocument, XmlUrlResolverFactory>(containingFragment.ResolverFactory);
             thisXmlDocument.Load(thisLinkbasePath);
             thisNamespaceManager = Container.Resolve<INamespaceManager>();
             thisNamespaceManager.Document = thisXmlDocument;

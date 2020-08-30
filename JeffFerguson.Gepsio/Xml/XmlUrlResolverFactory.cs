@@ -9,16 +9,6 @@ namespace JeffFerguson.Gepsio.Xml
     /// </summary>
     public class XmlUrlResolverFactory
     {
-        static XmlUrlResolverFactory()
-        {
-            Instance = new XmlUrlResolverFactory();
-        }
-
-        /// <summary>
-        /// XmlUrlResolverFactory.Factory that will be used to download schemas
-        /// </summary>
-        public static XmlUrlResolverFactory Instance { get; set; }
-
         /// <summary>
         /// Reads document as stream
         /// </summary>

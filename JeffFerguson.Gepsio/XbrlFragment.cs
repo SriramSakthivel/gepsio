@@ -1,4 +1,4 @@
-using JeffFerguson.Gepsio.IoC;
+﻿using JeffFerguson.Gepsio.IoC;
 using JeffFerguson.Gepsio.Validators.Xbrl2Dot1;
 using JeffFerguson.Gepsio.Xml.Interfaces;
 using System;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using JeffFerguson.Gepsio.Xml;
 
 namespace JeffFerguson.Gepsio
 {
@@ -145,14 +146,19 @@ namespace JeffFerguson.Gepsio
         /// A collection of arcrole references found in the fragment.
         /// </summary>
         public List<ArcroleReference> ArcroleReferences { get; private set; }
+        /// <summary>
+        /// XmlUrlResolverFactory
+        /// </summary>
+        public XmlUrlResolverFactory ResolverFactory { get; }
 
         //-------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------
-        internal XbrlFragment(XbrlDocument ParentDocument, INamespaceManager namespaceManager, INode XbrlRootNode)
+        internal XbrlFragment(XbrlDocument ParentDocument, INamespaceManager namespaceManager, INode XbrlRootNode, XmlUrlResolverFactory resolverFactory)
         {
             this.Document = ParentDocument;
             this.NamespaceManager = namespaceManager;
             this.XbrlRootNode = XbrlRootNode;
+            this.ResolverFactory = resolverFactory;
             this.Schemas = new XbrlSchemaCollection();
             this.ValidationErrors = new List<ValidationError>();
             CreateNamespaceManager();

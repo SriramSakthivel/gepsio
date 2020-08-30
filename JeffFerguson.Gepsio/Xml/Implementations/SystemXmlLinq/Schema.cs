@@ -14,6 +14,7 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
     /// </remarks>
     internal class Schema : ISchema
     {
+        public XmlUrlResolverFactory ResolverFactory { get; }
         private XmlSchema thisSchema;
         private List<IQualifiedName> thisNamespaceList;
 
@@ -51,11 +52,18 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
             thisNamespaceList = null;
         }
 
+        public Schema(XmlUrlResolverFactory resolverFactory)
+        {
+            ResolverFactory = resolverFactory;
+            thisSchema = null;
+            thisNamespaceList = null;
+        }
+
         public bool Read(string path)
         {
             try
             {
-                thisSchema = XmlUrlResolverFactory.Instance.ReadSchema(path);
+                thisSchema = ResolverFactory.ReadSchema(path);
                 return true;
             }
             catch (XmlSchemaException)

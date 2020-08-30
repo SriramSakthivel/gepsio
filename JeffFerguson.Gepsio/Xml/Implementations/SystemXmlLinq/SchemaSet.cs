@@ -91,14 +91,14 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXmlLinq
             thisSchemaSet.Compile();
         }
 
-        public SchemaSet()
+        public SchemaSet(XmlUrlResolverFactory resolverFactory)
         {
             thisSchemaSet = new XmlSchemaSet();
             // NEW BEGIN
             // Possible issue:
             // http://stackoverflow.com/questions/7500636/xml-validation-error-using-nested-xsd-schema-type-not-declared
             //
-            XmlUrlResolver resolver = XmlUrlResolverFactory.Instance.CreateUrlResolver();
+            XmlUrlResolver resolver = resolverFactory.CreateUrlResolver();
             resolver.Credentials = System.Net.CredentialCache.DefaultCredentials;
             thisSchemaSet.XmlResolver = resolver;
             // NEW END

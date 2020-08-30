@@ -7,6 +7,7 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXml
 {
     internal class Schema : ISchema
     {
+        private readonly XmlUrlResolverFactory thisResolverFactory;
         private XmlSchema thisSchema;
         private List<IQualifiedName> thisNamespaceList;
 
@@ -50,11 +51,18 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXml
             thisNamespaceList = null;
         }
 
+        public Schema(XmlUrlResolverFactory resolverFactory)
+        {
+            thisResolverFactory = resolverFactory;
+            thisSchema = null;
+            thisNamespaceList = null;
+        }
+
         public bool Read(string path)
         {            
             try
             {
-                thisSchema = XmlUrlResolverFactory.Instance.ReadSchema(path);
+                thisSchema = thisResolverFactory.ReadSchema(path);
                 return true;
             }
             catch(XmlSchemaException)

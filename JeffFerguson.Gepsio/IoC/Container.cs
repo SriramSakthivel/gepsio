@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JeffFerguson.Gepsio.Xml;
 
 namespace JeffFerguson.Gepsio.IoC
 {
@@ -59,6 +60,28 @@ namespace JeffFerguson.Gepsio.IoC
             Type implementationType = registeredTypes[typeof(TInterface)];
             return (TInterface)Activator.CreateInstance(implementationType);
         }
+
+        /// <summary>
+        /// Resolves an interface to a created type.
+        /// </summary>
+        /// <typeparam name="TInterface">
+        /// The interface to be resolved.
+        /// </typeparam>
+        /// <typeparam name="TDependency">First dependency</typeparam>
+        /// <returns>
+        /// An object of the type that implements the interface.
+        /// </returns>
+        internal static TInterface Resolve<TInterface, TDependency>(TDependency dependency)
+        {
+            if (registeredTypes.ContainsKey(typeof(TInterface)) == false)
+                throw new KeyNotFoundException("Interface type not registered.");
+            Type implementationType = registeredTypes[typeof(TInterface)];
+            var constructorInfo = implementationType.GetConstructor(new[] { typeof(TDependency) });
+            if (constructorInfo == null)
+                throw new ArgumentNullException("implementationType.GetConstructor(new[] { typeof(TDependency) })");
+            return (TInterface)constructorInfo.Invoke(new object[] { dependency });
+        }
+
 
         /// <summary>
         /// Registers an interface with the container.

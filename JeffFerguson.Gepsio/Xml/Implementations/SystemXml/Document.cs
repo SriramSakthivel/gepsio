@@ -11,14 +11,16 @@ namespace JeffFerguson.Gepsio.Xml.Implementation.SystemXml
     /// </summary>
     internal class Document : IDocument
     {
+        private readonly XmlUrlResolverFactory thisResolverFactory;
         internal XmlDocument XmlDocument { get; private set; }
 
-        public Document()
+        public Document(XmlUrlResolverFactory resolverFactory)
         {
+            thisResolverFactory = resolverFactory;
             this.XmlDocument = new XmlDocument();
         }
 
-        public void Load(string path) => this.XmlDocument.Load(XmlUrlResolverFactory.Instance.ReadXmlDocumentStream(path));
+        public void Load(string path) => this.XmlDocument.Load(thisResolverFactory.ReadXmlDocumentStream(path));
 
         public void Load(Stream stream) => this.XmlDocument.Load(stream);
 
